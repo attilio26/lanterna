@@ -131,7 +131,7 @@ $parameters["reply_markup"] = '{ "keyboard": [
 ["/r21 \ud83d\udd34", "/r11 \ud83d\udd34"],
 ["/r20 \ud83d\udd35", "/r10 \ud83d\udd35"],
 ["/ron \ud83d\udd34", "/roff \ud83d\udd35"],
-["/stato \u2753", "/reset"]],
+["/status \u2753", "/reset"]],
  "resize_keyboard": true, "one_time_keyboard": false}';
 // converto e stampo l'array JSON sulla response
 echo json_encode($parameters);
