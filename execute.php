@@ -56,7 +56,7 @@ if(strpos($text, "/start") === 0 || $text=="ciao" || $text == "help"){
 	/r20 -> GPIO2 LOW  /r21 -> GPIO2 HIGH 
 	/ron -> All GPIO ON  /roff -> All GPIO OFF	
 	/reset -> restart Station
-	/status  -> Lettura     \n/verbose -> parametri del messaggio";
+	/stat  -> Lettura     \n/verbose -> parametri del messaggio";
 }
 
 //<-- Comandi al rele GPIO1
@@ -101,7 +101,7 @@ elseif(strpos($text,"ron")){
 }
 
 //<-- Lettura stato del rele GPIO2
-elseif(strpos($text,"status")){
+elseif(strpos($text,"stat")){
 	$response = file_get_contents("http://dario95.ddns.net:20082/rq");
 }
 //<-- reset modulo
