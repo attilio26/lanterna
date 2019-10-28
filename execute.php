@@ -1,5 +1,5 @@
 <?php
-//25-10-2019
+//28-10-2019
 //started on 09-07-2019
 // La app di Heroku si puo richiamare da browser con
 //			https://rele4lamps1.herokuapp.com/
@@ -56,7 +56,7 @@ if(strpos($text, "/start") === 0 || $text=="ciao" || $text == "help"){
 	/r20 -> GPIO2 LOW  /r21 -> GPIO2 HIGH 
 	/ron -> All GPIO ON  /roff -> All GPIO OFF	
 	/reset -> restart Station
-	/stat  -> Lettura     \n/verbose -> parametri del messaggio";
+	/stato -> Lettura     \n/verbose -> parametri del messaggio";
 }
 
 //<-- Comandi al rele GPIO1
@@ -101,7 +101,7 @@ elseif(strpos($text,"ron")){
 }
 
 //<-- Lettura stato del rele GPIO2
-elseif(strpos($text,"stat")){
+elseif(strpos($text,"stato")){
 	$response = file_get_contents("http://dario95.ddns.net:20082/rq");
 }
 //<-- reset modulo
@@ -131,7 +131,7 @@ $parameters["reply_markup"] = '{ "keyboard": [
 ["/r21 \ud83d\udd34", "/r11 \ud83d\udd34"],
 ["/r20 \ud83d\udd35", "/r10 \ud83d\udd35"],
 ["/ron \ud83d\udd34", "/roff \ud83d\udd35"],
-["/status \u2753", "/reset"]],
+["/stato \u2753", "/reset"]],
  "resize_keyboard": true, "one_time_keyboard": false}';
 // converto e stampo l'array JSON sulla response
 echo json_encode($parameters);
