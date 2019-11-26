@@ -102,7 +102,7 @@ elseif(strpos($text,"ron")){
 
 //<-- Lettura stato del rele GPIO2
 elseif(strpos($text,"stato")){
-	$response = file_get_contents("http://dario95.ddns.net:20082/rq");
+	$response = file_get_contents("http://dario95.ddns.net:28082/rq");
 }
 //<-- reset modulo
 elseif(strpos($text,"reset")){
