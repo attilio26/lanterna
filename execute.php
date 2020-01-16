@@ -1,5 +1,5 @@
 <?php
-//28-10-2019
+//16-01-2020
 //started on 09-07-2019
 // La app di Heroku si puo richiamare da browser con
 //			https://rele4lamps1.herokuapp.com/
@@ -55,6 +55,7 @@ if(strpos($text, "/start") === 0 || $text=="ciao" || $text == "help"){
 	/r10 -> GPIO1 LOW  /r11 -> GPIO1 HIGH 
 	/r20 -> GPIO2 LOW  /r21 -> GPIO2 HIGH 
 	/ron -> All GPIO ON  /roff -> All GPIO OFF	
+	/ada  -> Adafruit dashboard
 	/reset -> restart Station
 	/stato -> Lettura     \n/verbose -> parametri del messaggio";
 }
@@ -104,6 +105,10 @@ elseif(strpos($text,"ron")){
 elseif(strpos($text,"stato")){
 	$response = file_get_contents("http://dario95.ddns.net:28082/rq");
 }
+//<-- collegamento a dashboard Adafruit
+elseif(strpos($text,"ada")){
+	$response = file_get_contents("http://dario95.ddns.net:9080/linkada.html");
+}
 //<-- reset modulo
 elseif(strpos($text,"reset")){
 	$response = file_get_contents("http://dario95.ddns.net:28082/rst");
@@ -131,7 +136,7 @@ $parameters["reply_markup"] = '{ "keyboard": [
 ["/r21 \ud83d\udd34", "/r11 \ud83d\udd34"],
 ["/r20 \ud83d\udd35", "/r10 \ud83d\udd35"],
 ["/ron \ud83d\udd34", "/roff \ud83d\udd35"],
-["/stato \u2753", "/reset"]],
+["/stato \u2753", "/ada", "/reset"]],
  "resize_keyboard": true, "one_time_keyboard": false}';
 // converto e stampo l'array JSON sulla response
 echo json_encode($parameters);
