@@ -85,6 +85,7 @@ elseif(strpos($text,"tlc_on")){
 elseif(strpos($text,"tlc_off")){
 	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=0");
 	//$response = clean_html_page($resp);
+	$response = $resp;
 }
 //<-- Comandi al rele GPIO2
 elseif(strpos($text,"ext_on")){
