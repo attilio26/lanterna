@@ -36,6 +36,8 @@ function clean_html_page($str_in){
 	$endch = strpos($str_in," </a></h2><foot");									//ultimo carattere utile da estrarre
 	$str_in = substr($str_in,$startch,$endch - $startch);				// substr(string,start,length)
 	$str_in = str_replace("<a href='?a="," ",$str_in);
+	$str_in = str_replace("r><h2>"," ",$str_in);
+	$str_in = str_replace(" </a></h2><h2>"," ",$str_in);
 	return $str_in;
 }
 
