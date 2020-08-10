@@ -32,19 +32,19 @@ if(!$update){
 
 
 function clean_html_page($str_in){
-	$startch = strpos($str_in,"</h2><h1>") + 9 ;								//primo carattere utile da estrarre
-	$endch = strpos($str_in,"<br><footer>p");		 								//ultimo carattere utile da estrarre
+	$startch = strpos($str_in,"</header><h2>" +1);							//primo carattere utile da estrarre
+	$endch = strpos($str_in,"</a></h2><f");		 									//ultimo carattere utile da estrarre
 	$str_in = substr($str_in,$startch,$endch - $startch);				// substr(string,start,length)
-	$str_in = str_replace("</h1></header><img src="," ",$str_in);
-	$str_in = str_replace("<a href="," ",$str_in);
-	$str_in = str_replace("<h2>"," ",$str_in);
-	$str_in = str_replace("<br>"," ",$str_in);
-	$str_in = str_replace("</h2>"," ",$str_in);
-	$str_in = str_replace("</a>","\n",$str_in);	
-	$str_in = str_replace("'?a=0'/>"," ",$str_in);
-	$str_in = str_replace("'?a=1'/>","\n",$str_in);
-	$str_in = str_replace("'?a=2'/>","_",$str_in);
-	$str_in = str_replace("'?a=3'/>"," ",$str_in);
+	//$str_in = str_replace("</h1></header><img src="," ",$str_in);
+	//$str_in = str_replace("<a href="," ",$str_in);
+	//$str_in = str_replace("<h2>"," ",$str_in);
+	//$str_in = str_replace("<br>"," ",$str_in);
+	//$str_in = str_replace("</h2>"," ",$str_in);
+	//$str_in = str_replace("</a>","\n",$str_in);	
+	//$str_in = str_replace("'?a=0'/>"," ",$str_in);
+	//$str_in = str_replace("'?a=1'/>","\n",$str_in);
+	//$str_in = str_replace("'?a=2'/>","_",$str_in);
+	//$str_in = str_replace("'?a=3'/>"," ",$str_in);
 	return $str_in;
 }
 
@@ -79,30 +79,25 @@ if(strpos($text, "/start") === 0 || $text=="ciao" || $text == "help"){
 //<-- Comandi al rele GPIO1
 elseif(strpos($text,"tlc_on")){
 	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=1");
-	//$response = clean_html_page($resp);
-	$response = $resp;
+	$response = clean_html_page($resp);
 }
 elseif(strpos($text,"tlc_off")){
 	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=0");
-	//$response = clean_html_page($resp);
-	$response = $resp;
+	$esponse = clean_html_page($resp);
 }
 //<-- Comandi al rele GPIO2
 elseif(strpos($text,"ext_on")){
 	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=2");
-	//$response = clean_html_page($resp);
-	$response = $resp;
+	$response = clean_html_page($resp);
 }
 elseif(strpos($text,"ext_off")){
 	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=3");
-	//$response = clean_html_page($resp);
-	$response = $resp;
+	$response = clean_html_page($resp);
 }
 //<-- Lettura stato dei rele 
 elseif(strpos($text,"stato")){
 	$resp = file_get_contents("http://dario95.ddns.net:28082");
-	//$response = clean_html_page($resp);
-	$response = $resp;
+	$response = clean_html_page($resp);
 }
 
 
