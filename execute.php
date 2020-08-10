@@ -32,20 +32,10 @@ if(!$update){
 
 
 function clean_html_page($str_in){
-	$startch = strpos($str_in,"<meta" +1);							//primo carattere utile da estrarre
-	//$endch   = strpos($str_in,"</a></h2><f");		 							  //ultimo carattere utile da estrarre
-	$str_in = substr($str_in,$startch);				// substr(string,start,length)
-	//$str_in = substr($str_in,$startch,$endch - $startch);				// substr(string,start,length)
-	//$str_in = str_replace("</h1></header><img src="," ",$str_in);
-	//$str_in = str_replace("<a href="," ",$str_in);
-	//$str_in = str_replace("<h2>"," ",$str_in);
-	//$str_in = str_replace("<br>"," ",$str_in);
-	//$str_in = str_replace("</h2>"," ",$str_in);
-	//$str_in = str_replace("</a>","\n",$str_in);	
-	//$str_in = str_replace("'?a=0'/>"," ",$str_in);
-	//$str_in = str_replace("'?a=1'/>","\n",$str_in);
-	//$str_in = str_replace("'?a=2'/>","_",$str_in);
-	//$str_in = str_replace("'?a=3'/>"," ",$str_in);
+	$startch = strpos($str_in,"er><h2>") + 1 ;									//primo carattere utile da estrarre
+	$endch = strpos($str_in," </a></h2><foot");									//ultimo carattere utile da estrarre
+	$str_in = substr($str_in,$startch,$endch - $startch);				// substr(string,start,length)
+	
 	return $str_in;
 }
 
