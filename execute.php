@@ -71,20 +71,20 @@ if(strpos($text, "/start") === 0 || $text=="ciao" || $text == "help"){
 
 //<-- Comandi al rele GPIO1
 elseif(strpos($text,"tlc_on")){
-	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=1");
+	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=3");
 	$response = clean_html_page($resp);
 }
 elseif(strpos($text,"tlc_off")){
-	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=0");
+	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=2");
 	$esponse = clean_html_page($resp);
 }
 //<-- Comandi al rele GPIO2
 elseif(strpos($text,"ext_on")){
-	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=2");
+	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=1");
 	$response = clean_html_page($resp);
 }
 elseif(strpos($text,"ext_off")){
-	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=3");
+	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=0");
 	$response = clean_html_page($resp);
 }
 //<-- Lettura stato dei rele 
