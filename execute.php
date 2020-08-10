@@ -34,7 +34,8 @@ if(!$update){
 function clean_html_page($str_in){
 	$startch = strpos($str_in,"</header><h2>" +1);							//primo carattere utile da estrarre
 	$endch = strpos($str_in,"</a></h2><f");		 									//ultimo carattere utile da estrarre
-	$str_in = substr($str_in,$startch,$endch - $startch);				// substr(string,start,length)
+	$str_in = substr($str_in,$startch);				// substr(string,start,length)
+	//$str_in = substr($str_in,$startch,$endch - $startch);				// substr(string,start,length)
 	//$str_in = str_replace("</h1></header><img src="," ",$str_in);
 	//$str_in = str_replace("<a href="," ",$str_in);
 	//$str_in = str_replace("<h2>"," ",$str_in);
