@@ -33,6 +33,8 @@ if(!$update){
 
 function clean_html_page($str_in){
 	$startch = strpos($str_in,"</header><h2>" +1);							//primo carattere utile da estrarre
+	echo($startch);
+	echo("aaa");
 	$endch   = strpos($str_in,"</a></h2><f");		 							  //ultimo carattere utile da estrarre
 	$str_in = substr($str_in,$startch);				// substr(string,start,length)
 	//$str_in = substr($str_in,$startch,$endch - $startch);				// substr(string,start,length)
