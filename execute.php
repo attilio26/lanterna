@@ -1,5 +1,5 @@
 <?php
-//16-01-2020
+//10-08-2020
 //started on 09-07-2019
 // La app di Heroku si puo richiamare da browser con
 //			https://rele4lamps1.herokuapp.com/
@@ -26,9 +26,26 @@ https://www.salvatorecordiano.it/creare-un-bot-telegram-guida-passo-passo/
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
-if(!$update)
-{
+if(!$update){
   exit;
+}
+
+
+function clean_html_page($str_in){
+	$startch = strpos($str_in,"</h2><h1>") + 9 ;								//primo carattere utile da estrarre
+	$endch = strpos($str_in,"<br><footer>p");		 								//ultimo carattere utile da estrarre
+	$str_in = substr($str_in,$startch,$endch - $startch);				// substr(string,start,length)
+	$str_in = str_replace("</h1></header><img src="," ",$str_in);
+	$str_in = str_replace("<a href="," ",$str_in);
+	$str_in = str_replace("<h2>"," ",$str_in);
+	$str_in = str_replace("<br>"," ",$str_in);
+	$str_in = str_replace("</h2>"," ",$str_in);
+	$str_in = str_replace("</a>","\n",$str_in);	
+	$str_in = str_replace("'?a=0'/>"," ",$str_in);
+	$str_in = str_replace("'?a=1'/>","\n",$str_in);
+	$str_in = str_replace("'?a=2'/>","_",$str_in);
+	$str_in = str_replace("'?a=3'/>"," ",$str_in);
+	return $str_in;
 }
 
 $message = isset($update['message']) ? $update['message'] : "";
@@ -52,67 +69,37 @@ $response = '';
 
 if(strpos($text, "/start") === 0 || $text=="ciao" || $text == "help"){
 	$response = "Ciao $firstname, benvenuto! \n List of commands : 
-	/r10 -> GPIO1 LOW  /r11 -> GPIO1 HIGH 
-	/r20 -> GPIO2 LOW  /r21 -> GPIO2 HIGH 
-	/ron -> All GPIO ON  /roff -> All GPIO OFF	
-	/ada  -> Adafruit dashboard
-	/reset -> restart Station
-	/stato -> Lettura     \n/verbose -> parametri del messaggio";
+	/tlc_on   -> telecamera accesa
+	/tlc_off  -> telecamera spenta
+	/ext_on   -> Lampada dietro bagno accesa
+	/ext_off  -> Lampada dietro bagno spenta
+	/stato 		-> Stato rele     \n/verbose -> parametri del messaggio";
 }
 
 //<-- Comandi al rele GPIO1
-elseif(strpos($text,"r10")){
-	$resp = substr(file_get_contents("http://dario95.ddns.net:28082/r10"),29);
-	$resp1 = substr($resp,0,-15);
-	$resp2 = substr($resp1,0,9);
-	$resp3 = substr($resp1,26);
-	$response = $resp2.$resp3;
+elseif(strpos($text,"tlc_on")){
+	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=1");
+	$response = clean_html_page($resp);
 }
-elseif(strpos($text,"r11")){
-	$resp = substr(file_get_contents("http://dario95.ddns.net:28082/r11"),29);
-	$resp1 = substr($resp,0,-15);
-	$resp2 = substr($resp1,0,9);
-	$resp3 = substr($resp1,26);
-	$response = $resp2.$resp3;
+elseif(strpos($text,"tlc_off")){
+	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=0");
+	$response = clean_html_page($resp);
 }
 //<-- Comandi al rele GPIO2
-elseif(strpos($text,"r20")){
-	$resp = substr(file_get_contents("http://dario95.ddns.net:28082/r20"),29);
-	$resp1 = substr($resp,0,-15);
-	$resp2 = substr($resp1,0,9);
-	$resp3 = substr($resp1,26);
-	$response = $resp2.$resp3;
+elseif(strpos($text,"ext_on")){
+	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=2");
+	$response = clean_html_page($resp);
 }
-elseif(strpos($text,"r21")){
-	$resp = substr(file_get_contents("http://dario95.ddns.net:28082/r21"),29);
-	$resp1 = substr($resp,0,-15);
-	$resp2 = substr($resp1,0,9);
-	$resp3 = substr($resp1,26);
-	$response = $resp2.$resp3;
+elseif(strpos($text,"ext_off")){
+	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=3");
+	$response = clean_html_page($resp);
 }
-//<-- Comando Total OFF
-elseif(strpos($text,"roff")){
-	$resp = substr(file_get_contents("http://dario95.ddns.net:28082/rf0"),29);
-	$response = substr($resp,0,-15);
-}
-//<-- Comando Total ON
-elseif(strpos($text,"ron")){
-	$resp = substr(file_get_contents("http://dario95.ddns.net:28082/rf1"),29);
-	$response = substr($resp,0,-15);
+//<-- Lettura stato dei rele 
+elseif(strpos($text,"stato")){
+	$resp = file_get_contents("http://dario95.ddns.net:28082");
+	$response = clean_html_page($resp);
 }
 
-//<-- Lettura stato del rele GPIO2
-elseif(strpos($text,"stato")){
-	$response = file_get_contents("http://dario95.ddns.net:28082/rq");
-}
-//<-- collegamento a dashboard Adafruit
-elseif(strpos($text,"ada")){
-	$response = file_get_contents("http://dario95.ddns.net:9080/linkada.html");
-}
-//<-- reset modulo
-elseif(strpos($text,"reset")){
-	$response = file_get_contents("http://dario95.ddns.net:28082/rst");
-}
 
 //<-- Manda a video la risposta completa
 elseif($text=="/verbose"){
@@ -133,10 +120,9 @@ $parameters = array('chat_id' => $chatId, "text" => $response);
 $parameters["method"] = "sendMessage";
 // imposto la keyboard
 $parameters["reply_markup"] = '{ "keyboard": [
-["/r21 \ud83d\udd34", "/r11 \ud83d\udd34"],
-["/r20 \ud83d\udd35", "/r10 \ud83d\udd35"],
-["/ron \ud83d\udd34", "/roff \ud83d\udd35"],
-["/stato \u2753", "/ada", "/reset"]],
+["/ext_on \ud83d\udd34", "/tlc_on \ud83d\udd34"],
+["/ext_off \ud83d\udd35", "/tlc_off \ud83d\udd35"],
+["/stato \u2753"]],
  "resize_keyboard": true, "one_time_keyboard": false}';
 // converto e stampo l'array JSON sulla response
 echo json_encode($parameters);
