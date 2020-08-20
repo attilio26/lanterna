@@ -1,9 +1,10 @@
 <?php
-//10-08-2020
+//20-08-2020
 //started on 09-07-2019
 // La app di Heroku si puo richiamare da browser con
 //			https://rele4lamps1.herokuapp.com/
 
+/////@lamp1tgbot			 ESP_lanterna
 
 /*API key = 666665671:AAG1ZOr7L9aajwN7mkFUkspednZImUWapXs
 
@@ -64,8 +65,8 @@ if(strpos($text, "/start") === 0 || $text=="ciao" || $text == "help"){
 	$response = "Ciao $firstname, benvenuto! \n List of commands : 
 	/tlc_on   -> telecamera accesa
 	/tlc_off  -> telecamera spenta
-	/ext_on   -> Lampada dietro bagno accesa
-	/ext_off  -> Lampada dietro bagno spenta
+	/lant_on  -> Lanterna accesa	
+	/lant_off -> Lanterna spenta
 	/stato 		-> Stato rele     \n/verbose -> parametri del messaggio";
 }
 
@@ -79,11 +80,11 @@ elseif(strpos($text,"tlc_off")){
 	$esponse = clean_html_page($resp);
 }
 //<-- Comandi al rele GPIO2
-elseif(strpos($text,"ext_on")){
+elseif(strpos($text,"lant_on")){
 	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=1");
 	$response = clean_html_page($resp);
 }
-elseif(strpos($text,"ext_off")){
+elseif(strpos($text,"lant_off")){
 	$resp = file_get_contents("http://dario95.ddns.net:28082/?a=0");
 	$response = clean_html_page($resp);
 }
@@ -113,8 +114,8 @@ $parameters = array('chat_id' => $chatId, "text" => $response);
 $parameters["method"] = "sendMessage";
 // imposto la keyboard
 $parameters["reply_markup"] = '{ "keyboard": [
-["/ext_on \ud83d\udd34", "/tlc_on \ud83d\udd34"],
-["/ext_off \ud83d\udd35", "/tlc_off \ud83d\udd35"],
+["/lant_on \ud83d\udd34", "/tlc_on \ud83d\udd34"],
+["/lant_off \ud83d\udd35", "/tlc_off \ud83d\udd35"],
 ["/stato \u2753"]],
  "resize_keyboard": true, "one_time_keyboard": false}';
 // converto e stampo l'array JSON sulla response
