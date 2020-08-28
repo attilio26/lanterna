@@ -1,5 +1,5 @@
 <?php
-//20-08-2020
+//28-08-2020
 //started on 09-07-2019
 // La app di Heroku si puo richiamare da browser con
 //			https://rele4lamps1.herokuapp.com/
@@ -39,6 +39,10 @@ function clean_html_page($str_in){
 	$str_in = str_replace("<a href='?a="," ",$str_in);
 	$str_in = str_replace("r><h2>"," ",$str_in);
 	$str_in = str_replace(" </a></h2><h2>"," ",$str_in);
+	$str_in = str_replace("0'/>"," ",$str_in);
+	$str_in = str_replace("1'/>"," ",$str_in);
+	$str_in = str_replace("2'/>"," ",$str_in);
+	$str_in = str_replace("3'/>"," ",$str_in);	
 	return $str_in;
 }
 
